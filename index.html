@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --ink: #1d2733;
+      --muted: #5b6878;
+      --line: #d6dde5;
+      --accent: #1f5f8b;
+      --done: #2f7d4f;
+      --error: #b3261e;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121820;
+        --surface: #1b232d;
+        --ink: #e6ebf0;
+        --muted: #9aa7b5;
+        --line: #2e3a47;
+        --accent: #6aaee0;
+        --done: #6cc58f;
+        --error: #f2867d;
+        color-scheme: dark;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    main { max-width: 640px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    header { margin-bottom: 2rem; }
+    h1 { font-size: 2.25rem; margin: 0; letter-spacing: -0.01em; }
+    .owner { margin: 0.25rem 0 0; color: var(--muted); }
+
+    #task-form {
+      display: grid;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    label { font-weight: 700; font-size: 0.95rem; }
+    input, textarea {
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0.55rem 0.7rem;
+    }
+    textarea { min-height: 4.5rem; resize: vertical; }
+    .form-actions { display: flex; gap: 0.5rem; }
+
+    button {
+      font: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+    }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+    button.danger { color: var(--error); }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    #status-message { min-height: 1.5rem; margin: 1rem 0; color: var(--muted); }
+    #status-message.error { color: var(--error); font-weight: 700; }
+
+    #task-list { display: grid; gap: 0.75rem; }
+    .task-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+    }
+    .task-item.is-done { border-left-color: var(--done); }
+    .task-item.is-done .task-title { text-decoration: line-through; color: var(--muted); }
+    .task-title { margin: 0; font-size: 1.15rem; }
+    .task-description { margin: 0.25rem 0 0.5rem; color: var(--muted); white-space: pre-wrap; }
+    .task-status { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+    .task-item.is-done .task-status { color: var(--done); }
+    .task-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    .empty { color: var(--muted); }
+
+    footer { margin-top: 2.5rem; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Task Manager</h1>
+      <p class="owner">Student ID: <span id="student-id">79822</span></p>
+    </header>
+
+    <form id="task-form">
+      <label for="task-title">Title</label>
+      <input id="task-title" type="text" required placeholder="What needs to be done?">
+
+      <label for="task-description">Description</label>
+      <textarea id="task-description" placeholder="Optional details"></textarea>
+
+      <div class="form-actions">
+        <button id="task-submit" type="submit" class="primary">Add task</button>
+        <button id="task-cancel" type="button" hidden>Cancel editing</button>
+      </div>
+    </form>
+
+    <p id="status-message" role="status" aria-live="polite"></p>
+
+    <section id="task-list" aria-label="Tasks"></section>
+
+    <footer>
+      <a id="contribution-link" href="contribution.html">Team Contribution</a>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
